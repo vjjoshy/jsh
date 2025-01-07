@@ -16,8 +16,8 @@ function extractData() {
         allText += textareas[i].value + '\n\n';
     }
     const extractedData = processText(allText);
-    const conclusion = "In conclusion, the above details outline the manpower distribution across various departments. Each section provides insights into the personnel assigned and activities performed, ensuring a comprehensive overview of the workforce.";
-    document.getElementById('output').innerText = extractedData + '\n' + conclusion;
+    const conclusion = "\nIn conclusion, the above details outline the manpower distribution across various departments. Each section provides insights into the personnel assigned and activities performed, ensuring a comprehensive overview of the workforce.";
+    document.getElementById('output').innerText = extractedData + conclusion;
 }
 
 function processText(text) {
@@ -35,6 +35,24 @@ function processText(text) {
         });
 
         // Format each line with aligned colons
+        lines.forEach(line => {
+            const trimmedLine = line.trim();
+            if (trimmedLine.includes(':')) {
+                const [key, value] = trimmedLine.split(':').map(item => item.trim());
+                result += `${key.padEnd(maxLength)} : ${value}\n`;
+            } else if (trimmedLine.startsWith('*')) {
+                result += `${trimmedLine}\n`; // Keep activity lines as is
+            } else {
+                result += `\n${trimmedLine}\n`; // Add a newline before non-colon lines (like MEP or conclusion)
+            }
+        });
+
+        result += '\n'; // Add a newline after each section for better readability
+    });
+
+    return result.trim(); // Trim the final result to remove the last extra newline
+}
+
         lines.forEach(line => {
             const trimmedLine = line.trim();
             if (trimmedLine.includes(':')) {
