@@ -16,7 +16,8 @@ function extractData() {
         allText += textareas[i].value + '\n\n';
     }
     const extractedData = processText(allText);
-    document.getElementById('output').innerText = extractedData;
+    const conclusion = "In conclusion, the above details outline the manpower distribution across various departments. Each section provides insights into the personnel assigned and activities performed, ensuring a comprehensive overview of the workforce.";
+    document.getElementById('output').innerText = extractedData + '\n' + conclusion;
 }
 
 function processText(text) {
