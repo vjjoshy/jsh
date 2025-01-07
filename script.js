@@ -53,18 +53,4 @@ function processText(text) {
     return result.trim(); // Trim the final result to remove the last extra newline
 }
 
-        lines.forEach(line => {
-            const trimmedLine = line.trim();
-            if (trimmedLine.includes(':')) {
-                const [key, value] = trimmedLine.split(':').map(item => item.trim());
-                result += `${key.padEnd(maxLength)} : ${value}\n`;
-            } else {
-                result += `${trimmedLine}\n`; // For lines without colons (like activity details)
-            }
-        });
-
-        result += '\n'; // Add a newline after each section for better readability
-    });
-
-    return result.trim(); // Trim the final result to remove the last extra newline
-}
+  
