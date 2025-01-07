@@ -14,6 +14,16 @@ textarea {
     padding: 10px;
     font-size: 16px;
     line-height: 1.5;
+    background-color: #e8f0fe; /* Light blue background */
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 5px; /* Rounded corners */
+    color: #333; /* Text color */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+textarea:focus {
+    background-color: #d0e7ff; /* Slightly darker blue on focus */
+    border-color: #0056b3; /* Darker blue border on focus */
 }
 button {
     display: block;
@@ -25,6 +35,8 @@ button {
     cursor: pointer;
     font-size: 16px;
     margin-bottom: 10px;
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 button:hover {
     background-color: #0056b3;
@@ -35,3 +47,4 @@ pre {
     border: 1px solid #ccc;
     white-space: pre-wrap;
 }
+
