@@ -1,6 +1,21 @@
+let entryCount = 1;
+
+function addEntry() {
+    const container = document.getElementById('dataEntryContainer');
+    const newTextarea = document.createElement('textarea');
+    newTextarea.className = 'inputText';
+    newTextarea.placeholder = 'Paste your manpower details here...';
+    container.appendChild(newTextarea);
+    entryCount++;
+}
+
 function extractData() {
-    const inputText = document.getElementById('inputText').value;
-    const extractedData = processText(inputText);
+    const textareas = document.getElementsByClassName('inputText');
+    let allText = '';
+    for (let i = 0; i < textareas.length; i++) {
+        allText += textareas[i].value + '\n\n';
+    }
+    const extractedData = processText(allText);
     document.getElementById('output').innerText = extractedData;
 }
 
