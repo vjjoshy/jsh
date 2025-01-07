@@ -1,56 +1,49 @@
-let entryCount = 1;
+let entries = [];
 
 function addEntry() {
-    const container = document.getElementById('dataEntryContainer');
-    const newTextarea = document.createElement('textarea');
-    newTextarea.className = 'inputText';
-    newTextarea.placeholder = 'Paste your manpower details here...';
-    container.appendChild(newTextarea);
-    entryCount++;
+    const textarea = document.createElement('textarea');
+    textarea.className = 'inputText';
+    textarea.placeholder = 'Paste your manpower details here...';
+    document.getElementById('dataEntryContainer').appendChild(textarea);
 }
 
 function extractData() {
     const textareas = document.getElementsByClassName('inputText');
-    let allText = '';
-    for (let i = 0; i < textareas.length; i++) {
-        allText += textareas[i].value + '\n\n';
+    entries = [];
+    for (let textarea of textareas) {
+        entries.push(textarea.value.trim());
     }
-    const extractedData = processText(allText);
+    const extractedData = processEntries(entries);
     const conclusion = "\nIn conclusion, the above details outline the manpower distribution across various departments. Each section provides insights into the personnel assigned and activities performed, ensuring a comprehensive overview of the workforce.";
     document.getElementById('output').innerText = extractedData + conclusion;
 }
 
-function processText(text) {
-    const sections = text.split(/\n\s*\n/); // Split by one or more empty lines to separate different blocks
+function processEntries(entries) {
     let result = '';
-
-    sections.forEach(section => {
-        const lines = section.trim().split('\n');
-        let maxLength = 0;
-
-        // Find the maximum key length
-        lines.forEach(line => {
-            const [key, value] = line.split(':').map(item => item.trim());
-            if (key && key.length > maxLength) maxLength = key.length;
-        });
-
-        // Format each line with aligned colons
-        lines.forEach(line => {
-            const trimmedLine = line.trim();
-            if (trimmedLine.includes(':')) {
-                const [key, value] = trimmedLine.split(':').map(item => item.trim());
-                result += `${key.padEnd(maxLength)} : ${value}\n`;
-            } else if (trimmedLine.startsWith('*')) {
-                result += `${trimmedLine}\n`; // Keep activity lines as is
-            } else {
-                result += `\n${trimmedLine}\n`; // Add a newline before non-colon lines (like MEP or conclusion)
-            }
-        });
-
-        result += '\n'; // Add a newline after each section for better readability
-    });
-
-    return result.trim(); // Trim the final result to remove the last extra newline
+    for (let entry of entries) {
+        result += processEntry(entry) + '\n\n';
+    }
+    return result.trim();
 }
 
-  
+function processEntry(entry) {
+    const lines = entry.split('\n').map(line => line.trim());
+    let maxLength = 0;
+    let formattedLines = [];
+    for (let line of lines) {
+        if (line.includes(':')) {
+            const [key, value] = line.split(':').map(part => part.trim());
+            if (key.length > maxLength) maxLength = key.length;
+            formattedLines.push({ key, value });
+        } else {
+            formattedLines.push({ text: line });
+        }
+    }
+    return formattedLines.map(line => {
+        if (line.key !== undefined) {
+            return `${line.key.padEnd(maxLength)} : ${line.value}`;
+        } else {
+            return `${line.text}`;
+        }
+    }).join('\n');
+}
