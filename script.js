@@ -5,7 +5,7 @@ function extractData() {
 }
 
 function processText(text) {
-    const sections = text.split('\n\n'); // Split by double newline to separate different blocks
+    const sections = text.split(/\n\s*\n/); // Split by one or more empty lines to separate different blocks
     let result = '';
 
     sections.forEach(section => {
